@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        function jitter(value, range = 0.02) {
+          let jittered = value + (Math.random() * range - range / 2);
+          return Math.max(jittered, 0.31); // 최소값 보정
+        }
+
+        var rawData = [
+          { name: '설향', acidRange: '0.5~0.8%', sugarRange: '10~13 Brix', acid: 0.65, sugar: 11.5, hardness: '높음' },
+          { name: '하이베리', acidRange: '0.4~0.6%', sugarRange: '12~14 Brix', acid: 0.5, sugar: 13, hardness: '중간' },
+          { name: '베리스타', acidRange: '0.6~0.8%', sugarRange: '10~12 Brix', acid: 0.7, sugar: 11, hardness: '높음' },
+          { name: '메리퀸', acidRange: '0.3~0.6%', sugarRange: '12~15 Brix', acid: 0.45, sugar: 13.5, hardness: '높음' },
+          { name: '아리향', acidRange: '0.4~0.7%', sugarRange: '11~14 Brix', acid: 0.55, sugar: 12.5, hardness: '중간' },
+          { name: '죽향', acidRange: '0.3~0.5%', sugarRange: '12~15 Brix', acid: 0.4, sugar: 13.5, hardness: '높음' },
+          { name: '금실', acidRange: '0.4~0.6%', sugarRange: '11~14 Brix', acid: 0.5, sugar: 12.5, hardness: '높음' }
+        ];
+
+        var minY = Math.min(...rawData.map(d => d.sugar)) - 0.5;
+        var maxY = Math.max(...rawData.map(d => d.sugar)) + 0.5;
+
+        var data = google.visualization.arrayToDataTable([
+          ['산도 (%)', '당도 (Brix)', { role: 'annotation' }, { role: 'style' }, { role: 'tooltip', p: { html: true } }],
+          ...rawData.map((d, index) => [
+            jitter(d.acid), // 차트에 표시할 jittered 산도
+            jitter(d.sugar), // 차트에 표시할 jittered 당도
+            d.name,
+            getColor(index),
+            createTooltip(d) // 툴팁에 표시할 HTML 데이터 (범위형 데이터 사용)
+          ])
+        ]);
+
+        function getColor(index) {
+          const colors = ['#e74c3c', '#3498db', '#f39c12', '#2ecc71', '#9b59b6', '#1abc9c', '#d35400'];
+          return colors[index % colors.length]; // 데이터 개수에 맞게 순환 적용
+        }
+
+        function createTooltip(d) {
+          return `<div style="padding:5px; font-size:14px;">
+                    <b>${d.name}</b><br>
+                    당도: ${d.sugarRange}<br>
+                    산도: ${d.acidRange}<br>
+                    경도: ${d.hardness}
+                  </div>`;
+        }
+
+        var options = {
+          hAxis: { 
+            title: '산도 (%)',
+            minValue: 0.3,
+            maxValue: 0.8,
+            viewWindow: { min: 0.3, max: 0.8 },
+            gridlines: { color: '#ddd' }
+          },
+          vAxis: { title: '당도 (Brix)', minValue: minY, maxValue: maxY, gridlines: { color: '#ddd' } },
+          legend: 'none',
+          pointSize: 12, // 포인트 크기 유지
+          dataOpacity: 0.9, // 반투명 효과 추가
+          annotations: { 
+            textStyle: { fontSize: 16, bold: true, color: '#333', auraColor: 'white', opacity: 0.8 } // 이름 가독성 향상
+          },
+          chartArea: { width: '80%', height: '80%' },
+          tooltip: { trigger: 'focus', isHtml: true }, // 툴팁 활성화 & HTML 커스텀 지원
+          backgroundColor: '#f9f9f9' // 부드러운 배경색 추가
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        function resizeChart() {
+          var container = document.getElementById('chart_div');
+          container.style.width = window.innerWidth * 1 + 'px';
+          container.style.height = window.innerHeight * 1 + 'px';
+          chart.draw(data, options);
+        }
+
+        resizeChart();
+        window.addEventListener('resize', resizeChart);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div"></div>
+  </body>
+</html>
