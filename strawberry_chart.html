@@ -12,6 +12,10 @@
           return Math.max(jittered, 0.31); // 최소값 보정
         }
 
+        function getFontSize(baseSize) {
+          return Math.max(baseSize * (window.innerWidth / 1000), baseSize * 0.8);
+        }
+
         var rawData = [
           { name: '설향', acidRange: '0.5~0.8%', sugarRange: '10~13 Brix', acid: 0.65, sugar: 11.5, hardness: '높음' },
           { name: '하이베리', acidRange: '0.4~0.6%', sugarRange: '12~14 Brix', acid: 0.5, sugar: 13, hardness: '중간' },
@@ -28,21 +32,21 @@
         var data = google.visualization.arrayToDataTable([
           ['산도 (%)', '당도 (Brix)', { role: 'annotation' }, { role: 'style' }, { role: 'tooltip', p: { html: true } }],
           ...rawData.map((d, index) => [
-            jitter(d.acid), // 차트에 표시할 jittered 산도
-            jitter(d.sugar), // 차트에 표시할 jittered 당도
+            jitter(d.acid),
+            jitter(d.sugar),
             d.name,
             getColor(index),
-            createTooltip(d) // 툴팁에 표시할 HTML 데이터 (범위형 데이터 사용)
+            createTooltip(d)
           ])
         ]);
 
         function getColor(index) {
           const colors = ['#e74c3c', '#3498db', '#f39c12', '#2ecc71', '#9b59b6', '#1abc9c', '#d35400'];
-          return colors[index % colors.length]; // 데이터 개수에 맞게 순환 적용
+          return colors[index % colors.length];
         }
 
         function createTooltip(d) {
-          return `<div style="padding:8px; font-size:20px;">
+          return `<div style="padding:8px; font-size:${getFontSize(16)}px;">
                     <b>${d.name}</b><br>
                     당도: ${d.sugarRange}<br>
                     산도: ${d.acidRange}<br>
@@ -57,26 +61,28 @@
             maxValue: 0.8,
             viewWindow: { min: 0.3, max: 0.8 },
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: 25 }, // X축 숫자 폰트 크기 증가
-            titleTextStyle: { fontSize: 25, bold: true } // X축 제목 폰트 크기 증가
+            textStyle: { fontSize: getFontSize(16) }, // X축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(18), bold: true },
+            ticks: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
           },
           vAxis: { 
             title: '당도 (Brix)',
-            minValue: minY, 
-            maxValue: maxY, 
+            minValue: minY,
+            maxValue: maxY,
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: 25 }, // Y축 숫자 폰트 크기 증가
-            titleTextStyle: { fontSize: 25, bold: true } // Y축 제목 폰트 크기 증가
+            textStyle: { fontSize: getFontSize(16) }, // Y축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(18), bold: true },
+            ticks: [10, 11, 12, 13, 14, 15]
           },
           legend: 'none',
-          pointSize: 20, // 포인트 크기 증가
-          dataOpacity: 0.9, // 반투명 효과 추가
+          pointSize: 14,
+          dataOpacity: 0.9,
           annotations: { 
-            textStyle: { fontSize: 30, bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 데이터 라벨 폰트 크기 증가
+            textStyle: { fontSize: getFontSize(24), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 👈 포인트 이름 폰트 크기 증가
           },
           chartArea: { width: '80%', height: '80%' },
-          tooltip: { trigger: 'focus', isHtml: true }, // 툴팁 활성화 & HTML 커스텀 지원
-          backgroundColor: '#f9f9f9' // 부드러운 배경색 추가
+          tooltip: { trigger: 'focus', isHtml: true },
+          backgroundColor: '#f9f9f9'
         };
 
         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
