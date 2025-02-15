@@ -13,7 +13,7 @@
         }
 
         function getFontSize(baseSize, minSize = 18) {
-          let scaleFactor = Math.min(1, window.innerWidth / 1000); // 가로 크기만 기준으로 조정
+          let scaleFactor = Math.min(1, window.innerHeight / 1000); // 세로 크기 기준으로 조정
           return Math.max(minSize, baseSize * scaleFactor);
         }
 
@@ -62,8 +62,8 @@
             maxValue: 0.8,
             viewWindow: { min: 0.3, max: 0.8 },
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(20, 18) }, // X축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(22, 20), bold: true },
+            textStyle: { fontSize: getFontSize(22, 20) }, // X축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(24, 22), bold: true },
             ticks: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
           },
           vAxis: { 
@@ -71,15 +71,15 @@
             minValue: minY,
             maxValue: maxY,
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(20, 18) }, // Y축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(22, 20), bold: true },
+            textStyle: { fontSize: getFontSize(22, 20) }, // Y축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(24, 22), bold: true },
             ticks: [10, 11, 12, 13, 14, 15]
           },
           legend: 'none',
-          pointSize: 16,
+          pointSize: 18,
           dataOpacity: 0.9,
           annotations: { 
-            textStyle: { fontSize: getFontSize(30, 24), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 👈 포인트 이름 폰트 크기 증가 (최소 24px 유지)
+            textStyle: { fontSize: getFontSize(32, 24), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 포인트 이름 폰트 크기 증가 (최소 24px 유지)
           },
           chartArea: { width: '80%', height: '80%' },
           tooltip: { trigger: 'focus', isHtml: true },
