@@ -7,13 +7,13 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        function jitter(value, range = 0.02) {
+        function jitter(value, range = 0.05) { // 🔹 지터 범위 증가
           let jittered = value + (Math.random() * range - range / 2);
           return Math.max(jittered, 0.31); // 최소값 보정
         }
 
         function getFontSize(baseSize, minSize = 18) {
-          let scaleFactor = Math.min(1, window.innerHeight / 1000); // 세로 크기 기준으로 조정
+          let scaleFactor = Math.min(1, window.innerHeight / 1000); // 🔹 세로 크기 기준으로 폰트 조정
           return Math.max(minSize, baseSize * scaleFactor);
         }
 
@@ -90,8 +90,8 @@
 
         function resizeChart() {
           var container = document.getElementById('chart_div');
-          container.style.width = window.innerWidth * 1 + 'px';
-          container.style.height = window.innerHeight * 0.9 + 'px'; // 화면 크기에 맞춰 높이 조정
+          container.style.width = window.innerWidth + 'px';
+          container.style.height = window.innerHeight + 'px'; // 🔹 전체 화면 크기 유지
           chart.draw(data, options);
         }
 
