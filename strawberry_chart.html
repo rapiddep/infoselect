@@ -7,13 +7,13 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        function jitter(value, range = 0.04) {
+        function jitter(value, range = 0.02) {
           let jittered = value + (Math.random() * range - range / 2);
-          return Math.max(jittered, 0.4); // 최소값 보정
+          return Math.max(jittered, 0.31); // 최소값 보정
         }
 
         function getFontSize(baseSize, minSize = 18) {
-          let scaleFactor = Math.min(1.2, window.innerWidth / 1000); // 너무 작아지지 않도록 제한
+          let scaleFactor = Math.min(1, window.innerWidth / 1000); // 가로 크기만 기준으로 조정
           return Math.max(minSize, baseSize * scaleFactor);
         }
 
@@ -47,7 +47,7 @@
         }
 
         function createTooltip(d) {
-          return `<div style="padding:8px; font-size:${getFontSize(18, 16)}px;">
+          return `<div style="padding:8px; font-size:${getFontSize(20, 18)}px;">
                     <b>${d.name}</b><br>
                     당도: ${d.sugarRange}<br>
                     산도: ${d.acidRange}<br>
@@ -62,8 +62,8 @@
             maxValue: 0.8,
             viewWindow: { min: 0.3, max: 0.8 },
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(18, 16) }, // X축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(20, 18), bold: true },
+            textStyle: { fontSize: getFontSize(20, 18) }, // X축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(22, 20), bold: true },
             ticks: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
           },
           vAxis: { 
@@ -71,15 +71,15 @@
             minValue: minY,
             maxValue: maxY,
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(18, 16) }, // Y축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(20, 18), bold: true },
+            textStyle: { fontSize: getFontSize(20, 18) }, // Y축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(22, 20), bold: true },
             ticks: [10, 11, 12, 13, 14, 15]
           },
           legend: 'none',
           pointSize: 16,
           dataOpacity: 0.9,
           annotations: { 
-            textStyle: { fontSize: getFontSize(28, 20), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 👈 포인트 이름 폰트 크기 증가 (최소 20px)
+            textStyle: { fontSize: getFontSize(30, 24), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 👈 포인트 이름 폰트 크기 증가 (최소 24px 유지)
           },
           chartArea: { width: '80%', height: '80%' },
           tooltip: { trigger: 'focus', isHtml: true },
@@ -91,7 +91,7 @@
         function resizeChart() {
           var container = document.getElementById('chart_div');
           container.style.width = window.innerWidth * 1 + 'px';
-          container.style.height = window.innerHeight * 1 + 'px';
+          container.style.height = window.innerHeight * 0.9 + 'px'; // 화면 크기에 맞춰 높이 조정
           chart.draw(data, options);
         }
 
