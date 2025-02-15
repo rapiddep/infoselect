@@ -12,8 +12,8 @@
           return Math.max(jittered, 0.31); // 최소값 보정
         }
 
-        function getFontSize(baseSize) {
-          return Math.max(baseSize * (window.innerWidth / 1000), baseSize * 0.8);
+        function getFontSize(baseSize, minSize = 14) {
+          return Math.max(minSize, baseSize * Math.min(1, window.innerWidth / 1000));
         }
 
         var rawData = [
@@ -46,7 +46,7 @@
         }
 
         function createTooltip(d) {
-          return `<div style="padding:8px; font-size:${getFontSize(16)}px;">
+          return `<div style="padding:8px; font-size:${getFontSize(16, 14)}px;">
                     <b>${d.name}</b><br>
                     당도: ${d.sugarRange}<br>
                     산도: ${d.acidRange}<br>
@@ -61,8 +61,8 @@
             maxValue: 0.8,
             viewWindow: { min: 0.3, max: 0.8 },
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(16) }, // X축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(18), bold: true },
+            textStyle: { fontSize: getFontSize(16, 14) }, // X축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(18, 16), bold: true },
             ticks: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
           },
           vAxis: { 
@@ -70,15 +70,15 @@
             minValue: minY,
             maxValue: maxY,
             gridlines: { color: '#ddd' },
-            textStyle: { fontSize: getFontSize(16) }, // Y축 숫자 폰트 크기 조절
-            titleTextStyle: { fontSize: getFontSize(18), bold: true },
+            textStyle: { fontSize: getFontSize(16, 14) }, // Y축 숫자 폰트 크기 조절
+            titleTextStyle: { fontSize: getFontSize(18, 16), bold: true },
             ticks: [10, 11, 12, 13, 14, 15]
           },
           legend: 'none',
           pointSize: 14,
           dataOpacity: 0.9,
           annotations: { 
-            textStyle: { fontSize: getFontSize(24), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 👈 포인트 이름 폰트 크기 증가
+            textStyle: { fontSize: getFontSize(24, 18), bold: true, color: '#333', auraColor: 'white', opacity: 0.9 } // 포인트 이름 폰트 크기 증가 & 최소 18px 유지
           },
           chartArea: { width: '80%', height: '80%' },
           tooltip: { trigger: 'focus', isHtml: true },
