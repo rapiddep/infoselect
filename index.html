@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>광고 안내</title>
+  <script>
+    window.onload = () => {
+      const params = new URLSearchParams(window.location.search);
+      const msg = params.get('msg') || '안내 메시지가 없습니다.';
+      document.getElementById('content').innerText = msg;
+    };
+  </script>
+</head>
+<body>
+  <h2>📢 광고 안내</h2>
+  <div id="content" style="padding:10px; border:1px solid #ccc;"></div>
+</body>
+</html>
