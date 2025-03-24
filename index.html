@@ -2,17 +2,39 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>광고 안내</title>
-  <script>
-    window.onload = () => {
-      const params = new URLSearchParams(window.location.search);
-      const msg = params.get('msg') || '안내 메시지가 없습니다.';
-      document.getElementById('content').innerText = msg;
-    };
-  </script>
+  <title>광고 참여 안내</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .button {
+      display: block;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: 16px;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      width: 250px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <h2>📢 광고 안내</h2>
-  <div id="content" style="padding:10px; border:1px solid #ccc;"></div>
+  <h2>🎯 제휴 광고 안내</h2>
+  <p>정상적인 추적을 위해 **외부 브라우저(Chrome, Safari 등)** 에서 여는 것을 권장합니다.</p>
+
+  <!-- 기본 링크 (텔레그램 인앱 브라우저에서 열릴 수 있음) -->
+  <a href="https://affiliate-link-1.com" class="button">기본 링크로 이동</a>
+
+  <!-- 외부 브라우저 열기용 (target="_blank" 활용) -->
+  <a href="https://affiliate-link-2.com" target="_blank" rel="noopener noreferrer" class="button">
+    외부 브라우저로 열기 🔗
+  </a>
 </body>
 </html>
